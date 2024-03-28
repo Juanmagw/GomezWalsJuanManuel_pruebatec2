@@ -1,6 +1,7 @@
 package juanmagw.hackaboss.pruebatecnica2.logica;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,13 +17,14 @@ public class Ciudadano implements Serializable {
     private Long id;
     private String nombre;
     @OneToMany(mappedBy = "ciudadano")
-    private List<Turno> turno;
+    private List<Turno> turnos;
 
     public Ciudadano() {
     }
 
     public Ciudadano(String nombre) {
         this.nombre = nombre;
+        this.turnos = new ArrayList<>();
     }
 
     public Long getId() {
@@ -41,11 +43,15 @@ public class Ciudadano implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<Turno> getTurno() {
-        return turno;
+    public List<Turno> getTurnos() {
+        return turnos;
     }
 
-    public void setTurno(List<Turno> turno) {
-        this.turno = turno;
+    public void setTurnos(List<Turno> turnos) {
+        this.turnos = turnos;
+    }
+
+    public void agregarTurnos(Turno turno) {
+        this.turnos.add(turno);
     }
 }

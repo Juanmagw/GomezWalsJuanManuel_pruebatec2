@@ -40,7 +40,7 @@ public class TurnoJpaController implements Serializable {
             }
             em.persist(turno);
             if (ciudadano != null) {
-                ciudadano.getTurno().add(turno);
+                ciudadano.getTurnos().add(turno);
                 ciudadano = em.merge(ciudadano);
             }
             em.getTransaction().commit();
@@ -65,11 +65,11 @@ public class TurnoJpaController implements Serializable {
             }
             turno = em.merge(turno);
             if (ciudadanoOld != null && !ciudadanoOld.equals(ciudadanoNew)) {
-                ciudadanoOld.getTurno().remove(turno);
+                ciudadanoOld.getTurnos().remove(turno);
                 ciudadanoOld = em.merge(ciudadanoOld);
             }
             if (ciudadanoNew != null && !ciudadanoNew.equals(ciudadanoOld)) {
-                ciudadanoNew.getTurno().add(turno);
+                ciudadanoNew.getTurnos().add(turno);
                 ciudadanoNew = em.merge(ciudadanoNew);
             }
             em.getTransaction().commit();
@@ -103,7 +103,7 @@ public class TurnoJpaController implements Serializable {
             }
             Ciudadano ciudadano = turno.getCiudadano();
             if (ciudadano != null) {
-                ciudadano.getTurno().remove(turno);
+                ciudadano.getTurnos().remove(turno);
                 ciudadano = em.merge(ciudadano);
             }
             em.remove(turno);

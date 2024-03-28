@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import juanmagw.hackaboss.pruebatecnica2.logica.Controladora;
-import juanmagw.hackaboss.pruebatecnica2.logica.Turno;
 
-@WebServlet(name = "turnoSv", urlPatterns = {"/turnoSv"})
-public class turnoSv extends HttpServlet {
+@WebServlet(name = "turnoEstadoSv", urlPatterns = {"/turnoEstadoSv"})
+public class turnoEstadoSv extends HttpServlet {
 
     Controladora control = new Controladora();
 
@@ -45,10 +44,12 @@ public class turnoSv extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession miSesion = request.getSession();
+        LocalDate fecha = LocalDate.parse(request.getSession().getAttribute("fecha").toString());
+        String estado = request.getParameter("estadoSelect");
 
-        miSesion.setAttribute("listaTurno", control.mostrarTurnos());
+        miSesion.setAttribute("listaTurnosEstado", control.mostrarTurnosEstado(fecha, estado));
 
-        response.sendRedirect("mostrarTurnos.jsp");
+        response.sendRedirect("mostrarTurnoEstado.jsp");
     }
 
     /**
@@ -62,19 +63,7 @@ public class turnoSv extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer numero = Integer.valueOf(request.getParameter("numeroCrear"));
-        String fecha = request.getParameter("fechaCrear");
-        String descripcion = request.getParameter("descripcionCrear");
 
-        Turno turno = new Turno(numero, LocalDate.parse(fecha), descripcion);
-
-        if (numero.equals("") || numero == null || fecha.equals("") || fecha == null || descripcion.equals("") || descripcion == null) {
-            //Mensaje de error
-            response.sendRedirect("error.jsp");
-        } else {
-            control.crearTurno(turno);
-            response.sendRedirect("index.jsp");
-        }
     }
 
     /**

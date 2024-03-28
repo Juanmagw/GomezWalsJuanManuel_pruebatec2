@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import juanmagw.hackaboss.pruebatecnica2.logica.Controladora;
-import juanmagw.hackaboss.pruebatecnica2.logica.Turno;
 
-@WebServlet(name = "turnoSv", urlPatterns = {"/turnoSv"})
-public class turnoSv extends HttpServlet {
+@WebServlet(name = "turnoFechaSv", urlPatterns = {"/turnoFechaSv"})
+public class turnoFechaSv extends HttpServlet {
 
     Controladora control = new Controladora();
 
@@ -43,12 +42,14 @@ public class turnoSv extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String fecha = request.getParameter("fechaBuscar");
 
         HttpSession miSesion = request.getSession();
 
-        miSesion.setAttribute("listaTurno", control.mostrarTurnos());
+        miSesion.setAttribute("fecha", fecha);
+        miSesion.setAttribute("listaTurnoFecha", control.mostrarTurnosFecha(LocalDate.parse(fecha)));
 
-        response.sendRedirect("mostrarTurnos.jsp");
+        response.sendRedirect("mostrarTurnosFecha.jsp");
     }
 
     /**
@@ -62,19 +63,8 @@ public class turnoSv extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer numero = Integer.valueOf(request.getParameter("numeroCrear"));
-        String fecha = request.getParameter("fechaCrear");
-        String descripcion = request.getParameter("descripcionCrear");
 
-        Turno turno = new Turno(numero, LocalDate.parse(fecha), descripcion);
-
-        if (numero.equals("") || numero == null || fecha.equals("") || fecha == null || descripcion.equals("") || descripcion == null) {
-            //Mensaje de error
-            response.sendRedirect("error.jsp");
-        } else {
-            control.crearTurno(turno);
-            response.sendRedirect("index.jsp");
-        }
+        
     }
 
     /**

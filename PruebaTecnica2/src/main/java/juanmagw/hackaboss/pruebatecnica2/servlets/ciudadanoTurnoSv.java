@@ -51,6 +51,8 @@ public class ciudadanoTurnoSv extends HttpServlet {
 
         miSesion.setAttribute("turnos", turnos);
         miSesion.setAttribute("ciudadanos", ciudadanos);
+
+        response.sendRedirect("ciudadanoTurno.jsp");
     }
 
     /**
@@ -64,7 +66,23 @@ public class ciudadanoTurnoSv extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Long ciudadanoTurno = Long.valueOf(request.getParameter("ciudadanoTurno"));
+        Integer turnoCiudadano = Integer.valueOf(request.getParameter("turnoCiudadano"));
 
+        Ciudadano ciudadano = control.mostrarCiudadanoId(ciudadanoTurno);
+        Turno turno = control.mostrarTurnoNumero(turnoCiudadano);
+
+        if (ciudadanoTurno.equals("") || ciudadanoTurno == null || turnoCiudadano.equals("") || turnoCiudadano == null) {
+            //Mensaje de error
+            response.sendRedirect("error.jsp");
+        } else if (turno.getCiudadano() == null) {
+            turno.setCiudadano(ciudadano);
+            control.editarTurno(turno);
+            response.sendRedirect("ciudadano.jsp");
+        } else {
+            //Mensaje de error
+            response.sendRedirect("error.jsp");
+        }
     }
 
     /**

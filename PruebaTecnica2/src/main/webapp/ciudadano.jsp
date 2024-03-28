@@ -3,16 +3,16 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html style="width: 100%; height: 100%">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <title>JSP Page</title>
     </head>
-    <body>
+    <body style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column">
         <div>
-            <h1>Bienvenido al sistema gestor te ciudadanos</h1>
-            <button><a href="index.jsp">Volver</a></button>           
+            <a style="color: white" href="index.jsp"><button class="btn btn-secondary" style="position: fixed; right: 10%;">Volver</button></a>
+            <h1>Bienvenido al sistema gestor de ciudadanos</h1>
         </div>
         <div>
             <h3>Crear nuevo ciudadano</h3>
@@ -21,63 +21,29 @@
                     <label>Nombre</label>
                     <input type="text" name="nombreCrear"/>
                 </div>
-                <button type="submit">Guardar</button>
+                <button class="btn btn-primary" type="submit">Guardar</button>
             </form>
         </div>
         <div>
             <h3>Buscar ciudadanos</h3>
             <form action="ciudadanoSv" method="GET">                
-                <button type="submit">Buscar</button>
+                <button class="btn btn-primary" type="submit">Buscar</button>
             </form>
         </div>
         <div>
-            <h3>Asignar turno a ciudadano</h3>
-            <form action="ciudadanoTurnoSv" method="GET">
-                <div>
-                    <h3>Turnos</h3>
-                    <table>
-                        <tr>
-                            <th>Número</th>
-                        </tr>
-                        <%
-                            List<Turno> turnos = (List) request.getSession().getAttribute("listaTurnos");
-                            for (Turno t : turnos) {
-                        %>
-                        <tr>
-                            <td><%=t.getNumero()%></td>
-                        </tr>
-                        <%}%>
-                    </table>               
-                </div>
+            <h3>Asignar turno a ciudadano</h3>          
+            <form action="ciudadanoTurnoSv" method="GET">                
+                <button class="btn btn-primary" type="submit">Buscar</button>
             </form>
-            <form action="ciudadanoTurnoSv" method="GET">
+        </div>
+        <div>
+            <h3>Eliminar ciudadano</h3>          
+            <form action="ciudadanoEliminarSv" method="POST">
                 <div>
-                    <h3>Turnos</h3>
-                    <table>
-                        <tr>
-                            <th>Número</th>
-                        </tr>
-                        <%
-                            List<Ciudadano> ciudadanos = (List) request.getSession().getAttribute("listaCiudadanos");
-                            for (Ciudadano c : ciudadanos) {
-                        %>
-                        <tr>
-                            <td><%=c.getNombre()%></td>
-                        </tr>
-                        <%}%>
-                    </table>               
+                    <label>ID ciudadano</label>
+                    <input type="number" name="idEliminar"/>
                 </div>
-            </form>
-            <form action="ciudadanoTurnoSv" method="POST">
-                <div>
-                    <label>Ciudadano</label>
-                    <input type="text" name="ciudadanoTurno"/>
-                </div>
-                <div>
-                    <label>Turno</label>
-                    <input type="number" name="turnoCiudadano"/>
-                </div>
-                <button type="submit">Guardar</button>
+                <button class="btn btn-primary" type="submit">Eliminar</button>
             </form>
         </div>
     </body>

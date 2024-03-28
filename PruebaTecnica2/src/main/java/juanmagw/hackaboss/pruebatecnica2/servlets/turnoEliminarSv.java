@@ -2,18 +2,15 @@ package juanmagw.hackaboss.pruebatecnica2.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import juanmagw.hackaboss.pruebatecnica2.logica.Controladora;
-import juanmagw.hackaboss.pruebatecnica2.logica.Turno;
 
-@WebServlet(name = "turnoSv", urlPatterns = {"/turnoSv"})
-public class turnoSv extends HttpServlet {
+@WebServlet(name = "turnoEliminarSv", urlPatterns = {"/turnoEliminarSv"})
+public class turnoEliminarSv extends HttpServlet {
 
     Controladora control = new Controladora();
 
@@ -44,11 +41,6 @@ public class turnoSv extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession miSesion = request.getSession();
-
-        miSesion.setAttribute("listaTurno", control.mostrarTurnos());
-
-        response.sendRedirect("mostrarTurnos.jsp");
     }
 
     /**
@@ -62,18 +54,15 @@ public class turnoSv extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer numero = Integer.valueOf(request.getParameter("numeroCrear"));
-        String fecha = request.getParameter("fechaCrear");
-        String descripcion = request.getParameter("descripcionCrear");
 
-        Turno turno = new Turno(numero, LocalDate.parse(fecha), descripcion);
+        Integer turnoNumero = Integer.valueOf(request.getParameter("numeroEliminar"));
 
-        if (numero.equals("") || numero == null || fecha.equals("") || fecha == null || descripcion.equals("") || descripcion == null) {
+        if (turnoNumero.equals("") || turnoNumero == null) {
             //Mensaje de error
             response.sendRedirect("error.jsp");
         } else {
-            control.crearTurno(turno);
-            response.sendRedirect("index.jsp");
+            control.eliminarTurno(turnoNumero);
+            response.sendRedirect("turno.jsp");
         }
     }
 

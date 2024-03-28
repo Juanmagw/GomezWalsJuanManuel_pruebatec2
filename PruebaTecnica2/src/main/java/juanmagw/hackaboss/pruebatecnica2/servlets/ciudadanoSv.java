@@ -65,9 +65,14 @@ public class ciudadanoSv extends HttpServlet {
 
         Ciudadano ciudadano = new Ciudadano(nombre);
 
-        control.crearCiudadano(ciudadano);
+        if (nombre.equals("") || nombre == null) {
+            //Mensaje de error
+            response.sendRedirect("error.jsp");
+        } else {
+            control.crearCiudadano(ciudadano);
+            response.sendRedirect("index.jsp");
+        }
 
-        response.sendRedirect("index.jsp");
     }
 
     /**
